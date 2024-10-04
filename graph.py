@@ -41,6 +41,7 @@ class Node:
     turtle.stamp()
 
   def draw_node_connections(self):
+    turtle.pencolor("Black")
     for c in self.connections:
       screen_x = self.position.x * Node.mapscale
       screen_y = self.position.y * Node.mapscale
@@ -54,6 +55,9 @@ class Node:
   def get_connections(self):
     return self.connections
 
+  def clear_connections(self):
+    self.connections = []
+
   def add_connections(self, connections):
     for c in connections:
       self.connections.append(c)
@@ -62,7 +66,7 @@ class Node:
     #self.connections = intersection(self.connections, Graph.return_nodes())
     for c in self.connections:
       found = False
-      for n in Graph.return_nodes:
+      for n in Graph.return_nodes():
         if c == n:
           found = True
       if found == False:
@@ -89,6 +93,10 @@ class Graph:
   def add_node(self, Node):
     self.nodes.append(Node)
 
+  def remove_node(self, Node):
+    self.nodes.remove(Node)
+    self.redo_grid_connections()
+  
   def has_node(self, node):
     for n in self.nodes:
       if n == node:
@@ -107,21 +115,25 @@ class Graph:
     for y in range(gridsize.y):
       for x in range(gridsize.x):
         self.add_node(Node(Position(x,y)))
-
-    for n in self.nodes:
-
-      right = self.get_node(Position(n.position.x+1, n.position.y))
-      left = self.get_node(Position(n.position.x-1, n.position.y))
-      up = self.get_node(Position(n.position.x, n.position.y+1))
-      down = self.get_node(Position(n.position.x, n.position.y-1))
-
-      if self.has_node(right):
-        n.add_connections([Route(right)])
-      if self.has_node(left):
-        n.add_connections([Route(left, 1)])
-      if self.has_node(up):
-        n.add_connections([Route(up, 1)])
-      if self.has_node(down):
-        n.add_connections([Route(down, 1)])
+    self.redo_grid_connections()
+  
+  def redo_grid_connections(self):
+      for n in self.nodes:
+        self.grid_connect(n)
+    
+  def grid_connect(self, n):
+    n.clear_connections()
+    right = self.get_node(Position(n.position.x+1, n.position.y))
+    left = self.get_node(Position(n.position.x-1, n.position.y))
+    up = self.get_node(Position(n.position.x, n.position.y+1))
+    down = self.get_node(Position(n.position.x, n.position.y-1))
+    if self.has_node(right):
+      n.add_connections([Route(right)])
+    if self.has_node(left):
+      n.add_connections([Route(left, 1)])
+    if self.has_node(up):
+      n.add_connections([Route(up, 1)])
+    if self.has_node(down):
+      n.add_connections([Route(down, 1)])
 
 
