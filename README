@@ -1,1 +1,13 @@
 This is a test
+
+Running on a Chromebook:
+
+To install the Python PIP Package Manager (https://pypi.org/project/pip/):
+sudo apt-get install python3-pip
+
+To install the Pygame package with pip:
+pip install pygame --break-system-packages
+
+To fetch the code from GitHub:
+cd src
+git clone https://github.com/NoahMSchool/PythonGraphPaths.git
