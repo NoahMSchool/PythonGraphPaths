@@ -1,12 +1,13 @@
-import turtle
+# import turtle
+import pygame
 import queue
 from graph import *
 
-turtle.penup()
-turtle.shape("circle")
-turtle.Screen().setup(0.9, 0.9)
-turtle.speed(0)
-
+pygame.init()
+(width, height) = (500, 500)
+screen = pygame.display.set_mode((width, height))
+color = (200,200,200)
+screen.fill(color)
 
 def graphsearch(order, graph, start, end=None):
   order.put(start)
@@ -44,15 +45,15 @@ def breadthfirstsearch(graph, start, end=None):
 
 
 noahGraph = Graph()
-noahGraph.grid_graph(Position(6, 4))
+noahGraph.grid_graph(Position(10, 10))
 noahGraph.remove_node(noahGraph.get_node(Position(3,0)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,1)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,2)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,3)))
 
 
-start = noahGraph.get_node(Position(0, 0))
-end = noahGraph.get_node(Position(5, 3))
+start = noahGraph.get_node(Position(2, 2))
+end = noahGraph.get_node(Position(9, 7))
 
 (visited, path) = breadthfirstsearch(noahGraph, start, end)
 for v in visited:
@@ -63,5 +64,6 @@ for p in path:
 start.set_state("START")
 end.set_state("END")
 
-noahGraph.draw_graph()
+noahGraph.draw_graph(screen, 50)
+pygame.display.flip()
 input()

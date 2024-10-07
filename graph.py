@@ -1,4 +1,4 @@
-import turtle
+import pygame
 
 class Position:
   def __init__(self, x, y):
@@ -11,15 +11,13 @@ class Route:
     self.weight = weight
 
 class Node:
-
- 
-  mapscale = 40
+  offset = 20
   state ={
-    "START" : ["green", "turtle"],
-    "END" : ["red", "turtle"],
-    "CURRENT" : ["black", "square"],
-    "SEARCHED" : ["blue", "circle"],
-    "PATH" : ["yellow", "triangle"]
+    "START" : "green",
+    "END" : "red",
+    "CURRENT" : "black",
+    "SEARCHED" : "blue",
+    "PATH" : "yellow"
   } 
   def __init__(self, position):
     self.position = position
@@ -32,25 +30,17 @@ class Node:
   def __str__(self):
       return "node" + str(self.position.x) +  str(self.position.y)
 
-  def draw_node(self):
-    screen_x = self.position.x * Node.mapscale
-    screen_y = self.position.y * Node.mapscale
-    turtle.goto(screen_x, screen_y)
-    turtle.color(Node.state[self.state][0])
-    turtle.shape(Node.state[self.state][1])
-    turtle.stamp()
+  def draw_node(self, screen, mapscale):
+    nodesize = 20
+    screen_x = self.position.x * mapscale + Node.offset
+    screen_y = self.position.y * mapscale + Node.offset
+    pygame.draw.rect(screen, Node.state[self.state], pygame.Rect(screen_x-nodesize/2, screen_y-nodesize/2, nodesize, nodesize))
+    
 
-  def draw_node_connections(self):
-    turtle.pencolor("Black")
+  def draw_node_connections(self, screen, mapscale):
     for c in self.connections:
-      screen_x = self.position.x * Node.mapscale
-      screen_y = self.position.y * Node.mapscale
-      turtle.goto(screen_x, screen_y)
-      turtle.pendown()
-      screen_x = c.end.position.x * Node.mapscale
-      screen_y = c.end.position.y * Node.mapscale
-      turtle.goto(screen_x, screen_y)
-      turtle.penup()
+        pygame.draw.line(screen, "black", (self.position.x*mapscale+Node.offset, self.position.y*mapscale+Node.offset), (c.end.position.x*mapscale+Node.offset, c.end.position.y*mapscale+Node.offset))
+      
 
   def get_connections(self):
     return self.connections
@@ -82,10 +72,11 @@ class Graph:
   def __init__(self):
     self.nodes = []
 
-  def draw_graph(self):
+  def draw_graph(self, screen, mapscale):
     for n in self.nodes:
-      n.draw_node_connections()
-      n.draw_node()
+      n.draw_node_connections(screen, mapscale)
+    for n in self.nodes:
+      n.draw_node(screen, mapscale)
 
   def return_nodes(self):
     return self.nodes

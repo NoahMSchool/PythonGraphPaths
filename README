@@ -8,6 +8,13 @@ sudo apt-get install python3-pip
 To install the Pygame package with pip:
 pip install pygame --break-system-packages
 
+To run the code:
+noahm@penguin:~/src/PythonGraphPaths$ python3 main.py
+
 To fetch the code from GitHub:
 cd src
 git clone https://github.com/NoahMSchool/PythonGraphPaths.git
+
+Git Instuctions:
+
+
