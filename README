@@ -17,4 +17,5 @@ git clone https://github.com/NoahMSchool/PythonGraphPaths.git
 
 Git Instuctions:
 
+To see the changes: git-diff
 

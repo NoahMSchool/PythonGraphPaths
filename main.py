@@ -50,20 +50,25 @@ noahGraph.remove_node(noahGraph.get_node(Position(3,0)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,1)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,2)))
 noahGraph.remove_node(noahGraph.get_node(Position(3,3)))
-
-
 start = noahGraph.get_node(Position(2, 2))
 end = noahGraph.get_node(Position(9, 7))
-
 (visited, path) = breadthfirstsearch(noahGraph, start, end)
 for v in visited:
   v.set_state("SEARCHED")
 for p in path:
   p.set_state("PATH")
-
 start.set_state("START")
 end.set_state("END")
 
-noahGraph.draw_graph(screen, 50)
-pygame.display.flip()
+gameObjects = []
+gameObjects.append(noahGraph)
+
+def frame(gameObjects):
+    for o in gameObjects:
+        o.draw(screen)
+    pygame.display.flip()
+
+
+
+frame(gameObjects)
 input()

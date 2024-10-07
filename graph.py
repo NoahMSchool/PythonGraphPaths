@@ -71,7 +71,8 @@ class Node:
 class Graph:
   def __init__(self):
     self.nodes = []
-
+  def draw(self, screen):
+    self.draw_graph(screen, 50)
   def draw_graph(self, screen, mapscale):
     for n in self.nodes:
       n.draw_node_connections(screen, mapscale)
