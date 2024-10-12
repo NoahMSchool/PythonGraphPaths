@@ -65,19 +65,33 @@ def breadthfirstsearch(graph, start, end=None):
   print("BFS")
   return graphsearch(queue.Queue(), graph, start, end)
 
-gameObjects = []
+def get_grid_graph(gridsize):
+    gridGraph = Graph()
+    gridsize = 10
+    
+    for y in range(gridsize):
+      for x in range(gridsize):
+         gridGraph.add_node(Node(Position(x,y)))
+    
+    gridGraph.remove_node(gridGraph.get_node(Position(3,0)))
+    gridGraph.remove_node(gridGraph.get_node(Position(3,1)))
+    gridGraph.remove_node(gridGraph.get_node(Position(3,2)))
+    gridGraph.remove_node(gridGraph.get_node(Position(3,3)))
+    
+    
+    gridGraph.redo_grid_connections()
+    return gridGraph
 
-noahGraph = Graph()
-noahGraph.grid_graph(Position(7, 7))
-noahGraph.remove_node(noahGraph.get_node(Position(3,0)))
-noahGraph.remove_node(noahGraph.get_node(Position(3,1)))
-noahGraph.remove_node(noahGraph.get_node(Position(3,2)))
-noahGraph.remove_node(noahGraph.get_node(Position(3,3)))
-start = noahGraph.get_node(Position(2, 2))
-gameObjects.append(noahGraph)
+gameObjects = []
 gameObjects.append(Debug())
-end = noahGraph.get_node(Position(6, 6))
-(visited, path) = breadthfirstsearch(noahGraph, start, end)
+gridGraph = get_grid_graph(10)
+gameObjects.append(gridGraph)
+
+start = gridGraph.get_node(Position(2, 2))
+end = gridGraph.get_node(Position(6, 6))
+(visited, path) = breadthfirstsearch(gridGraph, start, end)
+
+
 for v in visited:
   v.set_state("SEARCHED")
 for p in path:
