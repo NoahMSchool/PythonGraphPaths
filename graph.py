@@ -82,3 +82,22 @@ def get_grid_graph(gridsize):
     
     return gridGraph
 
+
+def get_simple_graph():
+    simpleGraph = Graph()
+    nodeA = Node(Position(2,2))
+    nodeB = Node(Position(1,5))
+    nodeC = Node(Position(6,6))
+    nodeD = Node(Position(8,2))
+    
+    simpleGraph.add_node(nodeA)
+    simpleGraph.add_node(nodeB)
+    simpleGraph.add_node(nodeC)
+    simpleGraph.add_node(nodeD)
+
+    nodeA.add_connections([
+        Route(nodeB, 1),
+        Route(nodeC, 2)
+    ])
+
+    return simpleGraph    

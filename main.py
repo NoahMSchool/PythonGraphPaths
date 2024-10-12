@@ -25,7 +25,7 @@ def frame(gameObjects, clock):
         o.draw(screen)
     clock.tick(20)
     pygame.display.flip()
-    #input()
+    input()
 
 #########################################################
 # Graph functions
@@ -83,17 +83,20 @@ def breadthfirstsearch(graph, start, end=None):
 #########################################################
 
 gameObjects = []
-gridGraph = get_grid_graph(10)
-gameObjects.append(gridGraph)
+
+# graph = get_grid_graph(10)
+graph = get_simple_graph()
+
+gameObjects.append(graph)
 gameObjects.append(Debug())
 
 
 # Solve a path
-start = gridGraph.get_node(Position(2, 2))
-end = gridGraph.get_node(Position(6, 6))
+start = graph.get_node(Position(2, 2))
+end = graph.get_node(Position(6, 6))
 start.set_state("START")
 end.set_state("END")
-(visited, path) = breadthfirstsearch(gridGraph, start, end)
+(visited, path) = breadthfirstsearch(graph, start, end)
 
 # Show the results of the path finding although we don't need this
 # when we are updating on every step of the path finding
