@@ -131,17 +131,12 @@ class Graph:
     
   def grid_connect(self, n):
     n.clear_connections()
-    right = self.get_node(Position(n.position.x+1, n.position.y))
-    left = self.get_node(Position(n.position.x-1, n.position.y))
-    up = self.get_node(Position(n.position.x, n.position.y+1))
-    down = self.get_node(Position(n.position.x, n.position.y-1))
-    if self.has_node(right):
-      n.add_connections([Route(right)])
-    if self.has_node(left):
-      n.add_connections([Route(left, 1)])
-    if self.has_node(up):
-      n.add_connections([Route(up, 1)])
-    if self.has_node(down):
-      n.add_connections([Route(down, 1)])
+    square = [(1,0),(0,1),(-1,0),(0,-1)]
+    diagonals = [(1,1),(1,-1),(-1,1),(-1,-1)]
+    directions = square + diagonals
+    for d in directions:
+        target = self.get_node(Position(n.position.x + d[0], n.position.y + d[1]))
+        if self.has_node(target):
+            n.add_connections([Route(target, 1)])
 
 
