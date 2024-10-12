@@ -65,17 +65,8 @@ class Node:
   def add_connections(self, connections):
     for c in connections:
       self.connections.append(c)
-
-  def update_connections(self, Graph):
-    #self.connections = intersection(self.connections, Graph.return_nodes())
-    for c in self.connections:
-      found = False
-      for n in Graph.return_nodes():
-        if c == n:
-          found = True
-      if found == False:
-        self.connections.remove(c)
-
+  def remove_connection(self, c):
+      self.connections.remove(c)
   def has_connection(self, node):
     for n in self.connections:
       if n == node:

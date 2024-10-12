@@ -4,6 +4,9 @@ import queue
 from debug import Debug
 from graph import *
 
+#########################################################
+# Set up the pygame classes (e.g. screen, clock)
+#########################################################
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -12,6 +15,10 @@ screen = pygame.display.set_mode((width, height))
 color = (200,200,200)
 screen.fill(color)
 
+#########################################################
+# Pygame Loops
+#########################################################
+
 def frame(gameObjects, clock):
     for o in gameObjects:
         o.update(clock)
@@ -19,6 +26,12 @@ def frame(gameObjects, clock):
     clock.tick(20)
     pygame.display.flip()
     #input()
+
+#########################################################
+# Graph functions
+# TODO: Move this into a Path class like Godot does
+# TODO: Greedy BFS, Djisktra, A* etc
+#########################################################
 
 def graphsearch(order, graph, start, end=None):
   order.put(start)
@@ -65,40 +78,34 @@ def breadthfirstsearch(graph, start, end=None):
   print("BFS")
   return graphsearch(queue.Queue(), graph, start, end)
 
-def get_grid_graph(gridsize):
-    gridGraph = Graph()
-    gridsize = 10
-    
-    for y in range(gridsize):
-      for x in range(gridsize):
-         gridGraph.add_node(Node(Position(x,y)))
-    
-    gridGraph.remove_node(gridGraph.get_node(Position(3,0)))
-    gridGraph.remove_node(gridGraph.get_node(Position(3,1)))
-    gridGraph.remove_node(gridGraph.get_node(Position(3,2)))
-    gridGraph.remove_node(gridGraph.get_node(Position(3,3)))
-    
-    
-    gridGraph.redo_grid_connections()
-    return gridGraph
+#########################################################
+# Creating some game objects and using them
+#########################################################
 
 gameObjects = []
-gameObjects.append(Debug())
 gridGraph = get_grid_graph(10)
 gameObjects.append(gridGraph)
+gameObjects.append(Debug())
 
+
+# Solve a path
 start = gridGraph.get_node(Position(2, 2))
 end = gridGraph.get_node(Position(6, 6))
+start.set_state("START")
+end.set_state("END")
 (visited, path) = breadthfirstsearch(gridGraph, start, end)
 
+# Show the results of the path finding although we don't need this
+# when we are updating on every step of the path finding
+# Also resets the start and end incause we have written over it
 
 for v in visited:
   v.set_state("SEARCHED")
 for p in path:
   p.set_state("PATH")
+
 start.set_state("START")
 end.set_state("END")
-
 
 frame(gameObjects, clock)
 input()
