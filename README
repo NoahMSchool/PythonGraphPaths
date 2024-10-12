@@ -11,6 +11,9 @@ pip install pygame --break-system-packages
 To run the code:
 noahm@penguin:~/src/PythonGraphPaths$ python3 main.py
 
+To exit program early:
+ctrl + c
+
 To fetch the code from GitHub:
 cd src
 git clone https://github.com/NoahMSchool/PythonGraphPaths.git

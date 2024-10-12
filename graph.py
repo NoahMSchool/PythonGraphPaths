@@ -15,26 +15,40 @@ class Node:
   state ={
     "START" : "green",
     "END" : "red",
-    "CURRENT" : "black",
+    "CURRENT" : "orange",
     "SEARCHED" : "blue",
-    "PATH" : "yellow"
+    "PATH" : "yellow",
+    "DEFAULT" : "black"
+    
   } 
   def __init__(self, position):
     self.position = position
     self.connections = []
-    self.state = "CURRENT"
+    self.state = "DEFAULT"
+    self.distance = 1000
 
   def set_state(self, state):
     self.state = state
+      
+  def get_distance(self):
+      return self.distance
+
+  def set_distance(self, d):
+      self.distance = d
+      
 
   def __str__(self):
       return "node" + str(self.position.x) +  str(self.position.y)
 
   def draw_node(self, screen, mapscale):
-    nodesize = 20
+    nodesize = 40
     screen_x = self.position.x * mapscale + Node.offset
     screen_y = self.position.y * mapscale + Node.offset
     pygame.draw.rect(screen, Node.state[self.state], pygame.Rect(screen_x-nodesize/2, screen_y-nodesize/2, nodesize, nodesize))
+    font = pygame.font.Font(None, 20)
+    #font_text = font.render((str(self.position.x) + ", " + str(self.position.y) + str(self.min_distance)),1,"white")
+    font_text = font.render(str(self.distance),1,"white")      
+    screen.blit(font_text, (self.position.x*mapscale+nodesize/2, self.position.y*mapscale+nodesize/2))
     
 
   def draw_node_connections(self, screen, mapscale):
@@ -73,6 +87,8 @@ class Graph:
     self.nodes = []
   def draw(self, screen):
     self.draw_graph(screen, 50)
+  def update(self, clock):
+      pass
   def draw_graph(self, screen, mapscale):
     for n in self.nodes:
       n.draw_node_connections(screen, mapscale)
